@@ -17,7 +17,7 @@ def heap_pop(arr):
         if child_node2 > len(arr) - 1:
             if step[arr[now_node]] > step[arr[child_node1]]:
                 arr[now_node], arr[child_node1] = arr[child_node1], arr[now_node]
-                now_node = parent_node
+                now_node = child_node1
             else:
                 break
         if child_node2 <= len(arr) - 1:
