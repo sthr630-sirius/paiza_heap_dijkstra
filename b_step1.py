@@ -1,30 +1,25 @@
-def heap_push(arr, x):
-    arr.append(x)
-
-    now_node = len(arr)-1
-
-    while now_node > 0:
-        parent_node = (now_node - 1)//2
-        if arr[now_node][1] <= arr[parent_node][1]:
-            arr[now_node], arr[parent_node] = arr[parent_node], arr[now_node]
-            now_node = parent_node
-        else:
-            break
-
-    return arr
-
-n, m , s= map(int, input().split())
-
+n, m, s = map(int, input().split())
 s -= 1
-
 g = [[] for _ in range(n)]
 for _ in range(m):
     a, b, w = map(int, input().split())
     a -= 1
     b -= 1
-    g[a] = heap_push(g[a], [b, w])
+    g[a].append([b, w])
 
-print(g[s][0][0]+1)
+near_edge = 'inf'
+min_w = 11
 
-#for gi in g:
-#    print(gi)
+for gi in g[s]:
+    edge = gi[0]
+    w = gi[1]
+    if w < min_w:
+        min_w = w
+        near_edge = edge
+    elif w == min_w:
+        near_edge = min(near_edge, edge)
+
+if near_edge != 'inf':
+    print(near_edge+1)
+else:
+    print('inf')
