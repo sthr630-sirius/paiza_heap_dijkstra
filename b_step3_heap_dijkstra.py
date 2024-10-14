@@ -1,5 +1,3 @@
-from collections import deque
-
 def heap_pop(bi_tree):
     bi_tree[0] = bi_tree[len(bi_tree)-1]
     bi_tree.pop()
@@ -24,8 +22,11 @@ def heap_pop(bi_tree):
 
         if bi_tree[current_node][1] > bi_tree[target_node][1]:
             bi_tree[current_node], bi_tree[target_node] = bi_tree[target_node], bi_tree[current_node]
-        elif bi_tree[current_node][0] == bi_tree[target_node][0]:
-            bi_tree[current_node], bi_tree[target_node] = bi_tree[target_node], bi_tree[current_node]
+        elif bi_tree[current_node][1] == bi_tree[target_node][1]:
+            if bi_tree[current_node][0] > bi_tree[target_node][0]:
+                bi_tree[current_node], bi_tree[target_node] = bi_tree[target_node], bi_tree[current_node]
+            else:
+                break
         else:
             break
 
@@ -74,46 +75,51 @@ INF = 2 * 1000
 is_visited = [False]*n
 dist = [INF]*n
 path = 0
-nxt_nodes = []
-
-nxt_node = s
-dist[nxt_node] = 0
-is_visited[nxt_node] = True
-#nxt_nodes.append([nxt_node, 0])
-
-'''
-is_visited = [False]*n
-dist = [INF]*n
 bi_tree = []
 
 nxt_node = s
+heap_append(bi_tree, nxt_node, 0)
+dist[nxt_node] = 0
 is_visited[nxt_node] = True
-path = 0
-dist[nxt_node] = path
+#print(f"init bi_tree: {bi_tree}")
 
-while 1:
+while not all(is_visited):
     now_node = nxt_node
-    for b, w in g[now_node]:
-        if is_visited[b] == False:
-            heap_append(bi_tree, b, path + w)
-    #print(bi_tree)
-    nxt_node = bi_tree[0][0]
-    path = bi_tree[0][1]
-    if is_visited[nxt_node] == False:
-        #print(f"node: {nxt_node+1}")
-        print(nxt_node+1)
-        dist[nxt_node] = path
-        #print(f"path: {path}")
-    is_visited[nxt_node] = True
-    heap_pop(bi_tree)
+    #print(f"---now_node: {now_node}")
 
+    for node, w in g[now_node]:
+        if is_visited[node] == False:
+            #print(f"  now_node: {now_node}, append_node: {node}, path: {path+w}")
+            heap_append(bi_tree, node, path+w)
+    #print(f"added bi_tree: {bi_tree}")
+
+    heap_pop(bi_tree)
+    #print(f"poped bi_tree: {bi_tree}")
     if not bi_tree:
         break
-    #print(bi_tree)
+    nxt_node = bi_tree[0][0]
+    path = bi_tree[0][1]
+    #print(nxt_node)
+    #print(path)
+
+    while is_visited[nxt_node]:
+        if not bi_tree:
+            break
+        heap_pop(bi_tree)
+        nxt_node = bi_tree[0][0]
+        path = bi_tree[0][1]
+
+    is_visited[nxt_node] = True
+    dist[nxt_node] = path
+
+    print(nxt_node+1)
+    #print(f"nxt_node: {nxt_node}")
+    #print(f"dist: {dist}")
+    #print(f"is_visited: {is_visited}")
 
 for d in dist:
     if d == INF:
         print('inf')
     else:
         print(d)
-'''
+#print(is_visited)
