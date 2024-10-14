@@ -1,3 +1,5 @@
+from collections import deque
+
 def heap_pop(bi_tree):
     bi_tree[0] = bi_tree[len(bi_tree)-1]
     bi_tree.pop()
@@ -66,10 +68,20 @@ for _ in range(m):
     a -= 1
     b -= 1
     g[a].append([b, w])
-    #g[b].append([a, w])
 
 INF = 2 * 1000
 
+is_visited = [False]*n
+dist = [INF]*n
+path = 0
+nxt_nodes = []
+
+nxt_node = s
+dist[nxt_node] = 0
+is_visited[nxt_node] = True
+#nxt_nodes.append([nxt_node, 0])
+
+'''
 is_visited = [False]*n
 dist = [INF]*n
 bi_tree = []
@@ -104,3 +116,4 @@ for d in dist:
         print('inf')
     else:
         print(d)
+'''
